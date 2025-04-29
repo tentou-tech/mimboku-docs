@@ -2,51 +2,51 @@
 
 * [Welcome](README.md)
 
-  ## Mimboku Dex Aggregator
+## Getting Started
 
+* [Quickstart](getting-started/quickstart.md)
+* [Publish your docs](getting-started/publish-your-docs.md)
 
-    ## Mimboku Aggregator
+## Mimboku Dex Aggregator
 
-    * [Mimboku Aggregator](mimboku-dex-aggregator/mimboku-aggregator/README.md)
+* [Sample](mimboku-dex-aggregator/sample.md)
 
-      ## Aggregator Api
+  ## MimbokuSwap Aggregator
 
-      * [Routing Api](mimboku-dex-aggregator/mimboku-aggregator/aggregator-api/README.md)
-      * [Swaps](mimboku-dex-aggregator/mimboku-aggregator/aggregator-api/swaps.md)
+  * [MimbokuSwap Aggregator](mimboku-dex-aggregator/mimbokuswap-aggregator/README.md)
 
-      ## Concepts
+    ## Aggregator Api
 
-      * [Concepts](mimboku-dex-aggregator/mimboku-aggregator/concepts/README.md)
-      * [Dynamic Trade Routing](mimboku-dex-aggregator/mimboku-aggregator/concepts/dynamic-trade-routing.md)
+    * [Routing Api](mimboku-dex-aggregator/mimbokuswap-aggregator/aggregator-api/README.md)
+    * [Swaps](mimboku-dex-aggregator/mimbokuswap-aggregator/aggregator-api/swaps.md)
 
-      ## Contracts
+    ## Concepts
 
-      * [Aggregator Contract Addresses](mimboku-dex-aggregator/mimboku-aggregator/contracts/aggregator-contract-addresses.md)
-      * [Testing tokens and pools](mimboku-dex-aggregator/mimboku-aggregator/contracts/testing-tokens-and-pools.md)
+    * [Concepts](mimboku-dex-aggregator/mimbokuswap-aggregator/concepts/README.md)
+    * [Dynamic Trade Routing](mimboku-dex-aggregator/mimbokuswap-aggregator/concepts/dynamic-trade-routing.md)
 
-      ## Developer Guides
+    ## Contracts
 
-      * [Developer Guides](mimboku-dex-aggregator/mimboku-aggregator/developer-guides/README.md)
-      * [Execute A Swap With The Aggregator API](mimboku-dex-aggregator/mimboku-aggregator/developer-guides/execute-a-swap-with-the-aggregator-api.md)
+    * [Aggregator Contract Addresses](mimboku-dex-aggregator/mimbokuswap-aggregator/contracts/aggregator-contract-addresses.md)
+    * [Testing tokens and pools](mimboku-dex-aggregator/mimbokuswap-aggregator/contracts/testing-tokens-and-pools.md)
 
-      ## User Guides
+    ## Developer Guides
 
-      * [User Guides](mimboku-dex-aggregator/mimboku-aggregator/user-guides/README.md)
-      * [Search for Your Favourite Tokens
-](mimboku-dex-aggregator/mimboku-aggregator/user-guides/choose-token.md)
-      * [Connecting Your Wallet
-](mimboku-dex-aggregator/mimboku-aggregator/user-guides/connect-wallet.md)
-      * [Transaction Reviews Before Execution
-](mimboku-dex-aggregator/mimboku-aggregator/user-guides/transaction-review.md)
+    * [Developer Guides](mimboku-dex-aggregator/mimbokuswap-aggregator/developer-guides/README.md)
+    * [Execute A Swap With The Aggregator API](mimboku-dex-aggregator/mimbokuswap-aggregator/developer-guides/execute-a-swap-with-the-aggregator-api.md)
 
-    ## Mimboku Interface
+    ## User Guides
 
-    * [Mimboku Interface](mimboku-dex-aggregator/mimboku-interface/README.md)
+    * [User Guides](mimboku-dex-aggregator/mimbokuswap-aggregator/user-guides/README.md)
 
-      ## Developer Guides
+  ## MimbokuSwap Interface
 
-      * [Developer Guides](mimboku-dex-aggregator/mimboku-interface/developer-guides/README.md)
+  * [MimbokuSwap Interface](mimboku-dex-aggregator/mimbokuswap-inteface/README.md)
 
-      ## User Guides
+    ## Developer Guides
 
-      * [User Guides](mimboku-dex-aggregator/mimboku-interface/user-guides/README.md)
+    * [Developer Guides](mimboku-dex-aggregator/mimbokuswap-inteface/developer-guides/README.md)
+
+    ## User Guides
+
+    * [User Guides](mimboku-dex-aggregator/mimbokuswap-inteface/user-guides/README.md)
