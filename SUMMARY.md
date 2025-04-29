@@ -7,12 +7,6 @@
 * [Quickstart](getting-started/quickstart.md)
 * [Publish your docs](getting-started/publish-your-docs.md)
 
-## Basics
+## MIMBOKU DEX AGGREGATOR
 
-* [Editor](basics/editor.md)
-* [Markdown](basics/markdown.md)
-* [Images & media](basics/images-and-media.md)
-
-## Group 1
-
-* [Sample](group-1/sample.md)
+* [Sample](mimboku-dex-aggregator/sample.md)
