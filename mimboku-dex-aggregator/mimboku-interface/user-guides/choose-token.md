@@ -2,7 +2,7 @@
 description: Choose your Tokens
 ---
 
-# Search for Your Favourite Tokens
+# Choose Token
 
 ## Introduction
 
@@ -20,6 +20,6 @@ Please proceed carefully when trading exotic tokens, as market conditions can ch
 
 To see the process in action, check out the video below:
 
-<video width="1080" height="720" autoplay loop muted playsinline>
-  <source src="https://images.tentou.tech/mimboku/search-token.mp4" type="video/mp4">
-</video>
+{% embed url="https://images.tentou.tech/mimboku/search-token.mp4" %}
+Select token to swap
+{% endembed %}

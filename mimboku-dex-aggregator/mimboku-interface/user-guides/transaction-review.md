@@ -2,7 +2,7 @@
 description: Transaction Reviews
 ---
 
-# Transaction Reviews Before Execution
+# Transaction Review
 
 ## Introduction
 
@@ -38,6 +38,6 @@ After completing a transaction, you can review your transaction history to check
 
 To see the process in action, watch the video below:
 
-<video width="1080" height="720" autoplay loop muted playsinline>
-  <source src="https://images.tentou.tech/mimboku/transaction-review.mp4" type="video/mp4">
-</video>
+{% embed url="https://images.tentou.tech/mimboku/transaction-review.mp4" %}
+Review your transaction
+{% endembed %}
