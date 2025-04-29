@@ -19,3 +19,6 @@
 * [Mimboku Interface](mimboku-dex-aggregator/mimboku-interface/README.md)
   * [Developer Guides](mimboku-dex-aggregator/mimboku-interface/developer-guides/README.md)
   * [User Guides](mimboku-dex-aggregator/mimboku-interface/user-guides/README.md)
+    * [Choose Token](mimboku-dex-aggregator/mimboku-interface/user-guides/choose-token.md)
+    * [Connect Wallet](mimboku-dex-aggregator/mimboku-interface/user-guides/connect-wallet.md)
+    * [Transaction Review](mimboku-dex-aggregator/mimboku-interface/user-guides/transaction-review.md)
