@@ -2,14 +2,7 @@
 
 * [Welcome](README.md)
 
-## Getting Started
-
-* [Quickstart](getting-started/quickstart.md)
-* [Publish your docs](getting-started/publish-your-docs.md)
-
 ## Mimboku Dex Aggregator
-
-* [Sample](mimboku-dex-aggregator/sample.md)
 
   ## Mimboku Aggregator
 
