@@ -17,7 +17,7 @@ layout:
 
 ## Welcome to Mimboku Dex Aggregator
 
-**Trade smarter on Story L1 at** [**https://aggregator-test.mimboku.com/**](https://aggregator-test.mimboku.com/) **with the Mimboku Dex Aggregator!**
+**Trade smarter on Story L1 at** [**https://ag-test.mimboku.com/**](https://aggregator-test.mimboku.com/) **with the Mimboku Dex Aggregator!**
 
 As the **first native DEX aggregator on Story**, we find you the best token swap prices and routes across multiple Story DEXes.
 
