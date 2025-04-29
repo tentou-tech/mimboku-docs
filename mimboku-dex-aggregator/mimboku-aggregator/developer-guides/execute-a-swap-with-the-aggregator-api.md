@@ -1,19 +1,19 @@
 ---
-description: Interacting With MimbokuSwap Aggregator Router Contract
+description: Interacting With Mimboku Aggregator Router Contract
 ---
 
 # Execute A Swap With The Aggregator API
 
 ## Overview
 
-MimbokuSwap maintains a single API specification for chains:
+Mimboku maintains a single API specification for chains:
 
 - [Swap API specs for chains](../aggregator-api/swaps.md)
 
 {% hint style="info" %}
-**MimbokuSwap Aggregator API**
+**Mimboku Aggregator API**
 
-Following feedback on the initial non-versioned API, MimbokuSwap has implemented a more performant `[V1]` API which improves the response time for getting a route via offloading encoding requirements to the post method.
+Following feedback on the initial non-versioned API, Mimboku has implemented a more performant `[V1]` API which improves the response time for getting a route via offloading encoding requirements to the post method.
 
 ## Sequence diagram
 

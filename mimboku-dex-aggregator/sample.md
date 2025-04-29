@@ -1,3 +1,0 @@
-# Sample
-
-Hello Test ABC

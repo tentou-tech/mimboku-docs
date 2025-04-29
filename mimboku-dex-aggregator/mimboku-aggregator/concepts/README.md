@@ -4,7 +4,7 @@ description: Dynamic Trade Routing
 
 # Concepts
 
-MimbokuSwap Aggregator improves upon the DeFi swap experience by splitting and rerouting swaps across all integrated DEXs on the same chain. By comparing DEX rates for the same token pair as well as the potential price impact of the swap against specific pools, MimbokuSwap's Dynamic Trade Routing is able to surface the most optimal liquidity to support a particular trade.
+Mimboku Aggregator improves upon the DeFi swap experience by splitting and rerouting swaps across all integrated DEXs on the same chain. By comparing DEX rates for the same token pair as well as the potential price impact of the swap against specific pools, Mimboku's Dynamic Trade Routing is able to surface the most optimal liquidity to support a particular trade.
 
 The following sections outline these concepts at a high level:
 

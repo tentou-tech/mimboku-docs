@@ -6,9 +6,9 @@ description: Your keys, your crypto
 
 ## Getting Started
 
-MimbokuSwap is a decentralized platform that doesn't rely on traditional user accounts. We don't store any personal data, and every interaction occurs through the use of Web3 wallets. Connecting your wallet unlocks all of MimbokuSwap’s features, allowing you to interact with the platform securely.
+Mimboku is a decentralized platform that doesn't rely on traditional user accounts. We don't store any personal data, and every interaction occurs through the use of Web3 wallets. Connecting your wallet unlocks all of Mimboku’s features, allowing you to interact with the platform securely.
 
-MimbokuSwap supports various wallet options. Please refer to the provider’s documentation for setup instructions.
+Mimboku supports various wallet options. Please refer to the provider’s documentation for setup instructions.
 
 
 ## How to Connect Your Wallet

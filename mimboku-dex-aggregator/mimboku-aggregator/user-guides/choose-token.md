@@ -6,7 +6,7 @@ description: Choose your Tokens
 
 ## Introduction
 
-MimbokuSwap whitelists some of the most commonly transacted tokens on our platform to view and trade. The interface remains consistent across various functions.
+Mimboku whitelists some of the most commonly transacted tokens on our platform to view and trade. The interface remains consistent across various functions.
 
 ## Searching for Tokens
 

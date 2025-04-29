@@ -1,5 +1,5 @@
 ---
-description: MimbokuSwap Aggregator APIs
+description: Mimboku Aggregator APIs
 ---
 
 # Swaps
@@ -9,7 +9,7 @@ description: MimbokuSwap Aggregator APIs
 
 ## Swap APIs
 
-If you're just getting started with the MimbokuSwap Aggregator, you can refer to our [Execute A Swap With The Aggregator API](../developer-guides/execute-a-swap-with-the-aggregator-api.md) dev guide for information and code samples on how to query and execute swaps at superior rates.
+If you're just getting started with the Mimboku Aggregator, you can refer to our [Execute A Swap With The Aggregator API](../developer-guides/execute-a-swap-with-the-aggregator-api.md) dev guide for information and code samples on how to query and execute swaps at superior rates.
 
 <details>
 
