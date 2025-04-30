@@ -17,7 +17,7 @@ If you're just getting started with the Mimboku Aggregator, you can refer to our
 
 **Chain identifiers**
 
-The Aggregator APIs require a chain **name** to be included in the path when calling the APIs:
+The Aggregator APIs require a chain **id** to be included in the path when calling the APIs:
 
 - Story Aeneid (ChainID: 1315) -> `Story Aeneid(Testnet)`
 
