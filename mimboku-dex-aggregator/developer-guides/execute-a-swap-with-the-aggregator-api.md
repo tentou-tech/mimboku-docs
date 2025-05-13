@@ -8,16 +8,15 @@ description: Interacting With Mimboku Aggregator Router Contract
 
 Mimboku maintains a single API specification for chains:
 
-- [Swap API specs for chains](../aggregator-api/swaps.md)
+* [Swap API specs for chains](../mimboku-interface/aggregator-api/swaps.md)
 
-{% hint style="info" %}
-**Mimboku Aggregator API**
+\*\*Mimboku Aggregator API\*\*
 
 Following feedback on the initial non-versioned API, Mimboku has implemented a more performant `[V1]` API which improves the response time for getting a route via offloading encoding requirements to the post method.
 
 ## Sequence diagram
 
-<figure><img src="../../../.gitbook/assets/Aggregator_API.png" alt=""><figcaption><p>API sequence diagram</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/Aggregator_API.png" alt=""><figcaption><p>API sequence diagram</p></figcaption></figure>
 
 To execute a swap, the router (`MimbokuRouter`) contract requires the encoded swap data to be included as part of the transaction. This encoded swap data as well as other swap metadata are returned as part of the API response. As such, developers are expected to call the swap API prior to sending a transaction to the router contract.
 
@@ -26,9 +25,7 @@ To execute a swap, the router (`MimbokuRouter`) contract requires the encoded sw
 Here is an example of how to call an API to get a quote and pass it to a smart contract for swapping:
 
 1. **Fetch the Quote**: Use `fetch` or any HTTP client (e.g., Axios) to call the API endpoint for getting a quote.
-
 2. **Prepare the Contract Interaction**: Use a library like `ethers.js` or `web3.js` to interact with the smart contract.
-
 3. **Execute the Swap**: Pass the quote data to the contract's swap function.
 
 ### Example Code
@@ -129,6 +126,7 @@ async function executeSwap(contractAddress, abi, provider, signer, quoteData, to
 ```
 
 ### Notes
-- The `getQuote` function now accepts `additionalParams` to include extra query parameters.
-- Ensure the API supports the additional parameters being passed.
-- Test the function with the updated parameters to verify correctness.
+
+* The `getQuote` function now accepts `additionalParams` to include extra query parameters.
+* Ensure the API supports the additional parameters being passed.
+* Test the function with the updated parameters to verify correctness.

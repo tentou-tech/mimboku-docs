@@ -1,0 +1,6 @@
+---
+icon: cubes-stacked
+---
+
+# Staking
+

@@ -1,5 +1,6 @@
 ---
 description: Simple Step-By-Step Tutorials
+icon: book
 ---
 
 # User Guides
