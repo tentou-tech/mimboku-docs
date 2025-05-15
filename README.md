@@ -1,8 +1,10 @@
 # Welcome
 
-## Welcome to Mimboku Dex Aggregator
+## Welcome to Mimboku DEX Aggregator
 
-**Trade smarter on Story L1 at** [**https://ag-test.mimboku.com/**](https://aggregator-test.mimboku.com/) **with the Mimboku Dex Aggregator!**
+**Trade smarter on Story L1 at:**
+
+[**https://ag.mimboku.com**](https://ag.mimboku.com/)
 
 As the **first native DEX aggregator on Story**, we find you the best token swap prices and routes across multiple Story DEXes.
 
@@ -14,7 +16,7 @@ A DEX aggregator automatically searches various decentralized exchanges to get y
 
 Built natively on Story L1, our aggregator offers optimized performance, potentially lower fees, and seamless integration within the Story ecosystem. We're committed to strengthening Story's DeFi landscape.
 
-### Key Features (Testnet - Aeneid)
+### Key Features
 
 * Finds optimal swap routes across integrated DEXes.
 * Currently supports **PiperX** and **StoryHunt** on the Story testnet.
