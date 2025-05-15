@@ -12,32 +12,23 @@ Mimboku Aggregator exposes a set of APIs that allows developers to easily query 
 
 ## Supported Networks
 
-| Chain ID | Network |
-|----------|---------|
-| 1315 | Aeneid Story Testnet |
-| 1514 | Story Mainnet |
+| Chain ID | Network              |
+| -------- | -------------------- |
+| 1315     | Aeneid Story Testnet |
+| 1514     | Story Mainnet        |
 
 ## API Documentation
 
-We provide comprehensive API documentation in OpenAPI/Swagger format:
-
-<table><thead><tr><th width="202.9296875">Resource</th><th>Description</th><th>URL</th></tr></thead><tbody><tr><td>Swagger UI</td><td>Interactive API documentation interface</td><td><a href="./swagger-ui.html">Local Swagger UI</a></td></tr><tr><td>OpenAPI Specification</td><td>Raw API specification in YAML format</td><td><a href="./swagger.yaml">swagger.yaml</a></td></tr></tbody></table>
+<div class="gitbook-swagger-container">
+  <iframe src="https://petstore.swagger.io/?url=https://raw.githubusercontent.com/tentou-tech/mimboku-docs/main/mimboku-dex-aggregator/developer-guides/swagger-ui.html" width="100%" height="800px" frameborder="0"></iframe>
+</div>
 
 ### Interactive Swagger Documentation
 
 You can access our interactive Swagger documentation in three ways:
 
-1. **Online Documentation**:
-   - Testnet: https://router-dev.mimboku.com/docs
-   - Mainnet: https://router.mimboku.com/docs
-
-2. **Local Documentation**:
-   - Open the [swagger-ui.html](./swagger-ui.html) file in your browser
-
-3. **Import into API Tools**:
-   - Import the [swagger.yaml](./swagger.yaml) file into tools like Postman, Insomnia, etc.
-
 The Swagger UI allows you to:
+
 - Explore all available endpoints
 - Try out API calls directly in your browser
 - View detailed request and response schemas
@@ -59,11 +50,6 @@ Query parameters for getting swap quotes:
 | type            | string | Type of quote (exactIn or exactOut)                                                            | exactIn                                    |
 | protocols       | string | Comma-separated list of protocols to include in the quote (v2, v3, v3s1, v4 don't support now) | v2,v3,v3s1                                 |
 | chainId         | number | (Optional) The blockchain network ID to use for the swap                                       | 1315                                       |
-
-#### Headers
-| Header | Description | Example |
-|--------|-------------|---------|
-| x-client-id | Client identifier for tracking | MyAwesomeApp |
 
 #### Example Request
 
@@ -150,24 +136,24 @@ The API returns a JSON response with the following structure:
 
 ### Response Fields
 
-| Field | Type | Description |
-|-------|------|-------------|
-| blockNumber | string | Current block number when quote was generated |
-| amount | string | Amount of tokens to be swapped (in base units) |
-| amountDecimals | string | Amount with proper decimal formatting |
-| quote | string | The quoted amount for the swap (in base units) |
-| quoteDecimals | string | Quote with proper decimal formatting |
-| quoteGasAdjusted | string | Quote adjusted for gas costs (in base units) |
-| quoteGasAdjustedDecimals | string | Gas-adjusted quote with proper decimal formatting |
-| gasUseEstimate | string | Estimated gas usage for the swap |
-| gasUseEstimateQuote | string | Cost of gas in quote currency (in base units) |
-| gasUseEstimateQuoteDecimals | string | Gas cost with proper decimal formatting |
-| gasUseEstimateUSD | string | Cost of gas in USD |
-| simulationStatus | string | Status of the transaction simulation (UNATTEMPTED, SUCCEEDED, FAILED) |
-| simulationError | boolean | Whether there was an error during simulation |
-| gasPriceWei | string | Current gas price in wei |
-| route | array | The route(s) for the swap, containing pools and tokens |
-| routeString | string | Human-readable representation of the route |
-| quoteId | string | Unique identifier for this quote |
-| hitsCachedRoutes | boolean | Whether the quote used cached route data |
-| priceImpact | string | Price impact of the swap as a percentage |
+| Field                       | Type    | Description                                                           |
+| --------------------------- | ------- | --------------------------------------------------------------------- |
+| blockNumber                 | string  | Current block number when quote was generated                         |
+| amount                      | string  | Amount of tokens to be swapped (in base units)                        |
+| amountDecimals              | string  | Amount with proper decimal formatting                                 |
+| quote                       | string  | The quoted amount for the swap (in base units)                        |
+| quoteDecimals               | string  | Quote with proper decimal formatting                                  |
+| quoteGasAdjusted            | string  | Quote adjusted for gas costs (in base units)                          |
+| quoteGasAdjustedDecimals    | string  | Gas-adjusted quote with proper decimal formatting                     |
+| gasUseEstimate              | string  | Estimated gas usage for the swap                                      |
+| gasUseEstimateQuote         | string  | Cost of gas in quote currency (in base units)                         |
+| gasUseEstimateQuoteDecimals | string  | Gas cost with proper decimal formatting                               |
+| gasUseEstimateUSD           | string  | Cost of gas in USD                                                    |
+| simulationStatus            | string  | Status of the transaction simulation (UNATTEMPTED, SUCCEEDED, FAILED) |
+| simulationError             | boolean | Whether there was an error during simulation                          |
+| gasPriceWei                 | string  | Current gas price in wei                                              |
+| route                       | array   | The route(s) for the swap, containing pools and tokens                |
+| routeString                 | string  | Human-readable representation of the route                            |
+| quoteId                     | string  | Unique identifier for this quote                                      |
+| hitsCachedRoutes            | boolean | Whether the quote used cached route data                              |
+| priceImpact                 | string  | Price impact of the swap as a percentage                              |
