@@ -4,7 +4,11 @@ description: Query Superior Swap Rates
 
 # Aggregator API
 
-Mimboku Aggregator exposes a set of APIs that allows developers to easily query favourable rates for a swap. This includes additional swap data such as the exact swap route, swap routing parameters, as well as the encoded data to be submitted to the Aggregator [smart contract](../mimboku-aggregator/contracts/aggregator-contract-addresses.md). Please refer to [Execute A Swap With The Aggregator API ](../mimboku-aggregator/developer-guides/execute-a-swap-with-the-aggregator-api.md)for examples on how to integrate with our APIs.
+Mimboku Aggregator exposes a set of APIs that allows developers to easily query favourable rates for a swap. This includes additional swap data such as the exact swap route, swap routing parameters, as well as the encoded data to be submitted to the Aggregator [smart contract.](contracts/) Please refer to [Execute A Swap With The Aggregator API](execute-a-swap-with-the-aggregator-api.md) for examples on how to integrate with our APIs.
+
+## Public API
+
+<table><thead><tr><th width="202.9296875">Environment</th><th>URL</th></tr></thead><tbody><tr><td>Story mainnet</td><td><a href="https://router.mimboku.com/">https://router.mimboku.com</a></td></tr><tr><td>Story testnet (Aeneid)</td><td><a href="https://router-dev.mimboku.com">https://router-dev.mimboku.com</a></td></tr></tbody></table>
 
 ## API Parameters
 
