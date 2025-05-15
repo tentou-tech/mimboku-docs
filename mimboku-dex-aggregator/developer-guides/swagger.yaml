@@ -7,11 +7,11 @@ info:
     name: MimbokuSwap Support
 servers:
   - url: https://router-dev.mimboku.com
-    description: Development/Testnet Server
+    description: Development/Testnet Server (Aeneid Story Testnet)
   - url: https://router.mimboku.com
-    description: Production/Mainnet Server
+    description: Production/Mainnet Server (Story Mainnet)
 paths:
-  https://router-dev.mimboku.com/quote:
+  /quote:
     get:
       summary: Get swap quote
       description: Returns the best swap quote based on the provided parameters
@@ -90,7 +90,7 @@ paths:
             type: string
             example: "MyAwesomeApp"
       responses:
-        '200':
+        "200":
           description: Successful response with quote information
           content:
             application/json:
@@ -277,9 +277,9 @@ paths:
                         type: string
                         description: Contract address to call
                         example: "0x1062916B1Be3c034C1dC6C26f682Daf1861A3909"
-        '400':
+        "400":
           description: Bad request - invalid parameters
-        '500':
+        "500":
           description: Server error
 components:
   securitySchemes:
@@ -288,4 +288,4 @@ components:
       in: header
       name: x-client-id
 security:
-  - ApiKeyAuth: [] 
+  - ApiKeyAuth: []
