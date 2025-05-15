@@ -1,0 +1,291 @@
+openapi: 3.0.0
+info:
+  title: MimbokuSwap Aggregator API
+  description: API for querying superior swap rates across multiple protocols
+  version: 1.0.0
+  contact:
+    name: MimbokuSwap Support
+servers:
+  - url: https://router-dev.mimboku.com
+    description: Development/Testnet Server
+  - url: https://router.mimboku.com
+    description: Production/Mainnet Server
+paths:
+  /quote:
+    get:
+      summary: Get swap quote
+      description: Returns the best swap quote based on the provided parameters
+      operationId: getQuote
+      tags:
+        - Quotes
+      parameters:
+        - name: tokenInAddress
+          in: query
+          description: Address of the input token
+          required: true
+          schema:
+            type: string
+            example: "0x1514000000000000000000000000000000000000"
+        - name: tokenInChainId
+          in: query
+          description: Chain ID of the input token
+          required: true
+          schema:
+            type: integer
+            example: 1315
+        - name: tokenOutAddress
+          in: query
+          description: Address of the output token
+          required: true
+          schema:
+            type: string
+            example: "0xd1fa5456186758b84811b929b4d696178fb56ee3"
+        - name: tokenOutChainId
+          in: query
+          description: Chain ID of the output token
+          required: true
+          schema:
+            type: integer
+            example: 1315
+        - name: amount
+          in: query
+          description: Amount of tokens to swap (in base units)
+          required: true
+          schema:
+            type: string
+            example: "100000000000"
+        - name: type
+          in: query
+          description: Type of quote
+          required: true
+          schema:
+            type: string
+            enum: [exactIn, exactOut]
+            example: "exactIn"
+        - name: protocols
+          in: query
+          description: Comma-separated list of protocols to include in the quote
+          required: false
+          schema:
+            type: string
+            example: "v2,v3,v3s1"
+        - name: chainId
+          in: query
+          description: The blockchain network ID to use for the swap
+          required: false
+          schema:
+            type: integer
+            enum: [1315, 1514]
+            example: 1315
+            description: |
+              Available Chain IDs:
+              - 1315: Aeneid Story Testnet
+              - 1514: Story Mainnet
+      headers:
+        - name: x-client-id
+          in: header
+          description: Client identifier for tracking
+          required: true
+          schema:
+            type: string
+            example: "MyAwesomeApp"
+      responses:
+        '200':
+          description: Successful response with quote information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  blockNumber:
+                    type: string
+                    description: Current block number when quote was generated
+                    example: "4172602"
+                  amount:
+                    type: string
+                    description: Amount of tokens to be swapped (in base units)
+                    example: "10000000000000000000"
+                  amountDecimals:
+                    type: string
+                    description: Amount with proper decimal formatting
+                    example: "10"
+                  quote:
+                    type: string
+                    description: The quoted amount for the swap (in base units)
+                    example: "23380751936294484817899"
+                  quoteDecimals:
+                    type: string
+                    description: Quote with proper decimal formatting
+                    example: "23380.751936294484817899"
+                  quoteGasAdjusted:
+                    type: string
+                    description: Quote adjusted for gas costs (in base units)
+                    example: "23380750164225210864289"
+                  quoteGasAdjustedDecimals:
+                    type: string
+                    description: Gas-adjusted quote with proper decimal formatting
+                    example: "23380.750164225210864289"
+                  gasUseEstimate:
+                    type: string
+                    description: Estimated gas usage for the swap
+                    example: "783000"
+                  gasUseEstimateQuote:
+                    type: string
+                    description: Cost of gas in quote currency (in base units)
+                    example: "1772069273953609"
+                  gasUseEstimateQuoteDecimals:
+                    type: string
+                    description: Gas cost with proper decimal formatting
+                    example: "0.001772069273953609"
+                  gasUseEstimateUSD:
+                    type: string
+                    description: Cost of gas in USD
+                    example: "0.000003"
+                  simulationStatus:
+                    type: string
+                    description: Status of the transaction simulation
+                    example: "UNATTEMPTED"
+                    enum: ["UNATTEMPTED", "SUCCEEDED", "FAILED"]
+                  simulationError:
+                    type: boolean
+                    description: Whether there was an error during simulation
+                    example: false
+                  gasPriceWei:
+                    type: string
+                    description: Current gas price in wei
+                    example: "1000090"
+                  route:
+                    type: array
+                    description: The route(s) for the swap
+                    items:
+                      type: array
+                      description: A specific route option
+                      items:
+                        type: object
+                        description: A hop in the route
+                        properties:
+                          type:
+                            type: string
+                            description: The type of pool
+                            example: "v3-pool"
+                            enum: ["v3-pool", "v2-pool", "v3s1-pool"]
+                          address:
+                            type: string
+                            description: The pool contract address
+                            example: "0x0bB8Df520A2c1Bf8B50D0a7b326a0Df295069431"
+                          routerAddress:
+                            type: string
+                            description: The router contract address
+                            example: "0x1062916B1Be3c034C1dC6C26f682Daf1861A3909"
+                          dexName:
+                            type: string
+                            description: The name of the DEX
+                            example: "Storyhunt V3"
+                          tokenIn:
+                            type: object
+                            description: Information about the input token
+                            properties:
+                              chainId:
+                                type: integer
+                                description: Chain ID of the token
+                                example: 1514
+                              decimals:
+                                type: string
+                                description: Number of decimals for the token
+                                example: "18"
+                              address:
+                                type: string
+                                description: Token contract address
+                                example: "0x1514000000000000000000000000000000000000"
+                              symbol:
+                                type: string
+                                description: Token symbol
+                                example: "WIP"
+                          tokenOut:
+                            type: object
+                            description: Information about the output token
+                            properties:
+                              chainId:
+                                type: integer
+                                description: Chain ID of the token
+                                example: 1514
+                              decimals:
+                                type: string
+                                description: Number of decimals for the token
+                                example: "6"
+                              address:
+                                type: string
+                                description: Token contract address
+                                example: "0xF1815bd50389c46847f0Bda824eC8da914045D14"
+                              symbol:
+                                type: string
+                                description: Token symbol
+                                example: "USDC.e"
+                          fee:
+                            type: string
+                            description: The fee tier of the pool (in hundredths of a bip)
+                            example: "500"
+                          liquidity:
+                            type: string
+                            description: The liquidity in the pool
+                            example: "135625982168192"
+                          sqrtRatioX96:
+                            type: string
+                            description: The sqrt ratio of the pool
+                            example: "169947854912589181635456"
+                          tickCurrent:
+                            type: string
+                            description: The current tick of the pool
+                            example: "-261061"
+                          amountIn:
+                            type: string
+                            description: Amount of tokens going in to this hop
+                            example: "10000000000000000000"
+                          amountOut:
+                            type: string
+                            description: Amount of tokens coming out from this hop
+                            example: "23380751936294484817899"
+                  routeString:
+                    type: string
+                    description: Human-readable representation of the route
+                    example: "[V3] 100.00% = WIP -- 0.05% [0x0bB8Df520A2c1Bf8B50D0a7b326a0Df295069431]USDC.e -- 0.3% [0xFD061584f1F88F24fe11Dfa12B9D283afe2FC9F8]BENJI"
+                  quoteId:
+                    type: string
+                    description: Unique identifier for this quote
+                    example: "2674a"
+                  hitsCachedRoutes:
+                    type: boolean
+                    description: Whether the quote used cached route data
+                    example: false
+                  priceImpact:
+                    type: string
+                    description: Price impact of the swap as a percentage
+                    example: "61.75"
+                  methodParameters:
+                    type: object
+                    description: Parameters needed for executing the swap
+                    properties:
+                      calldata:
+                        type: string
+                        description: Encoded calldata for the swap
+                        example: "0x5ae401dc00000000000000000000000000000000000000000000000000000000..."
+                      value:
+                        type: string
+                        description: ETH value to send with transaction
+                        example: "0"
+                      to:
+                        type: string
+                        description: Contract address to call
+                        example: "0x1062916B1Be3c034C1dC6C26f682Daf1861A3909"
+        '400':
+          description: Bad request - invalid parameters
+        '500':
+          description: Server error
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-client-id
+security:
+  - ApiKeyAuth: [] 
