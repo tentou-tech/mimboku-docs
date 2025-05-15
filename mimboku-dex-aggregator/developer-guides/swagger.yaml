@@ -11,7 +11,7 @@ servers:
   - url: https://router.mimboku.com
     description: Production/Mainnet Server
 paths:
-  /quote:
+  https://router-dev.mimboku.com/quote:
     get:
       summary: Get swap quote
       description: Returns the best swap quote based on the provided parameters

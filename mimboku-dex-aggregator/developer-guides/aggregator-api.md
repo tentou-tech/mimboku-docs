@@ -19,9 +19,8 @@ Mimboku Aggregator exposes a set of APIs that allows developers to easily query 
 
 ## API Documentation
 
-<div class="gitbook-swagger-container">
-  <iframe src="https://petstore.swagger.io/?url=https://raw.githubusercontent.com/tentou-tech/mimboku-docs/main/mimboku-dex-aggregator/developer-guides/swagger.yaml" width="100%" height="800px" frameborder="0"></iframe>
-</div>
+{% embed url="https://petstore.swagger.io/?url=https://raw.githubusercontent.com/tentou-tech/mimboku-docs/main/mimboku-dex-aggregator/developer-guides/swagger.yaml" %}
+{% endembed %}
 
 ### Interactive Swagger Documentation
 
