@@ -61,19 +61,44 @@ async function main() {
     tokenIn: tokenInAddress,
     tokenOut: tokenOutAddress,
     amountIn: amountIn.toString(),
-    chainId: 1514 // Replace with your chainId
+    chainId: 1514, // Replace with your chainId
+    protocols: 'v2,v3,v3s1,mixed'
   });
 
   // Prepare swap params from quote
   // This assumes quote.route is an array of swap paths, similar to your dApp logic
   const swapParams = quote.route.map((path) => {
-    const swapRoutes = path.map((step, idx) => ({
-      routerAddress: step.routerAddress,
-      poolType: step.type, // Map to correct poolType if needed
-      tokenIn: idx === 0 ? tokenInAddress : step.tokenIn.address,
-      tokenOut: step.tokenOut.address,
-      fee: step.fee || 0
-    }));
+    const swapRoutes = path.map((step, idx) => {
+      // --- Logic same as form-swap.tsx ---
+      // Case 1: tokenIn is IP (native)
+      if (quote.tokenInSymbol === "IP") {
+        return {
+          routerAddress: step.routerAddress,
+          poolType: step.type,
+          tokenIn: idx === 0 ? "0x0000000000000000000000000000000000000000" : step.tokenIn.address,
+          tokenOut: step.tokenOut.address,
+          fee: step.fee || 0
+        };
+      }
+      // Case 2: tokenOut is IP (native)
+      if (quote.tokenOutSymbol === "IP") {
+        return {
+          routerAddress: step.routerAddress,
+          poolType: step.type,
+          tokenIn: step.tokenIn.address,
+          tokenOut: idx === path.length - 1 ? "0x0000000000000000000000000000000000000000" : step.tokenOut.address,
+          fee: step.fee || 0
+        };
+      }
+      // Default: ERC20 -> ERC20
+      return {
+        routerAddress: step.routerAddress,
+        poolType: step.type,
+        tokenIn: step.tokenIn.address,
+        tokenOut: step.tokenOut.address,
+        fee: step.fee || 0
+      };
+    });
     const amountInWithDecimals = ethers.BigNumber.from(path[0]?.amountIn?.toString() || "0");
     const amountOutWithDecimals = ethers.BigNumber.from(path[path.length - 1]?.amountOut || "0");
     // Calculate minimum amount out based on slippage (e.g. 0.5%)
