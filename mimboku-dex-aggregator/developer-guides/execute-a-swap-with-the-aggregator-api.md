@@ -117,7 +117,7 @@ async function main() {
   // 4. Handle swap cases
   const router = new ethers.Contract(routerAddress, abiMimbokuRouter, signer);
 
-  // Case 1: Native token (IP) as tokenIn (send value)
+  // Case: Native token (IP) as tokenIn (send value)
   if (quote.tokenInSymbol === "IP") {
     const tx = await router.swapMultiroutes(swapParams, {
       gasLimit: 10000000,
@@ -129,7 +129,7 @@ async function main() {
     return;
   }
 
-  // Case 3: ERC 20-> Native token (IP) or ERC20 -> ERC20 (no value)
+  // Case Default: ERC 20-> Native token (IP) or ERC20 -> ERC20 (no value)
   if (quote.tokenInSymbol !== "IP" && quote.tokenOutSymbol !== "IP") {
     const tx = await router.swapMultiroutes(swapParams, {
       gasLimit: 10000000
