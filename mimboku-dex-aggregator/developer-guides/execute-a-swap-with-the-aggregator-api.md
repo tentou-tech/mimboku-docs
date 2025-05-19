@@ -21,102 +21,119 @@ Here is an example of how to call an API to get a quote and pass it to a smart c
 ### Example Code
 
 ```javascript
-// Step 1: Fetch the quote
-async function getQuote(apiUrl, params, additionalParams) {
-  const queryParams = { ...params, ...additionalParams };
-  const response = await fetch(`${apiUrl}?${new URLSearchParams(queryParams)}`);
-  if (!response.ok) {
-    throw new Error('Failed to fetch quote');
-  }
-  return response.json();
+// Example: How to get a quote and perform a swap using ethers.js
+
+import { ethers } from "ethers";
+import abiMimbokuRouter from "@/abis/abi.json";
+
+// 1. Get a quote from your backend or quote API
+async function fetchQuote({
+  tokenIn,
+  tokenOut,
+  amountIn,
+  chainId,
+  protocols
+}) {
+  // Replace with your actual quote API endpoint
+  const res = await fetch(
+    `https://your-quote-api/quote?tokenIn=${tokenIn}&tokenOut=${tokenOut}&amountIn=${amountIn}&chainId=${chainId}&protocols=${protocols}`
+  );
+  if (!res.ok) throw new Error("Failed to fetch quote");
+  return await res.json();
 }
 
-// Step 2: Prepare and execute the swap
-async function executeSwap(contractAddress, abi, provider, signer, quoteData, tokenIn, tokenOut, slippage, address) {
-  const contract = new ethers.Contract(contractAddress, abi, signer);
+// 2. Prepare ethers.js
+const provider = new ethers.JsonRpcProvider("https://rpc-url");
+const signer = provider.getSigner(); // Make sure wallet is connected
+const routerAddress = "0x..."; // MimbokuRouter contract address
 
-  const deadline = Math.floor(Date.now() / 1000) + parseInt(quoteData.timeLimit || '20') * 60; // Use time limit from quoteData
-  const allExecutionParams = quoteData.route.map((path) => {
-    const swapRoutes = path.map((step, index) => ({
+// Example tokens (replace with real addresses)
+const tokenInAddress = "0x..."; // Token you want to sell
+const tokenOutAddress = "0x..."; // Token you want to buy
+const decimalsIn = 18; // Decimals for tokenIn
+const decimalsOut = 18; // Decimals for tokenOut
+const amountIn = ethers.parseUnits("1.0", decimalsIn); // Amount to swap
+
+// 3. Get quote data
+async function main() {
+  // Get quote from API
+  const quote = await fetchQuote({
+    tokenIn: tokenInAddress,
+    tokenOut: tokenOutAddress,
+    amountIn: amountIn.toString(),
+    chainId: 1514 // Replace with your chainId
+  });
+
+  // Prepare swap params from quote
+  // This assumes quote.route is an array of swap paths, similar to your dApp logic
+  const swapParams = quote.route.map((path) => {
+    const swapRoutes = path.map((step, idx) => ({
       routerAddress: step.routerAddress,
-      poolType: step.type,
-      tokenIn: index === 0 ? tokenIn.address : step.tokenIn.address,
+      poolType: step.type, // Map to correct poolType if needed
+      tokenIn: idx === 0 ? tokenInAddress : step.tokenIn.address,
       tokenOut: step.tokenOut.address,
-      fee: step.fee || BigInt(0),
+      fee: step.fee || 0
     }));
-
-    const amountInWithDecimals = BigInt(path[0]?.amountIn?.toString() || '0');
-    const amountOutWithDecimals = BigInt(path[path.length - 1]?.amountOut || '0');
-    const amountOutMinimum =
-      (amountOutWithDecimals * BigInt(10000 - parseFloat(slippage) * 100)) / BigInt(10000);
+    const amountInWithDecimals = ethers.BigNumber.from(path[0]?.amountIn?.toString() || "0");
+    const amountOutWithDecimals = ethers.BigNumber.from(path[path.length - 1]?.amountOut || "0");
+    // Calculate minimum amount out based on slippage (e.g. 0.5%)
+    const slippage = 0.5;
+    const amountOutMinimum = amountOutWithDecimals.mul(10000 - slippage * 100).div(10000);
 
     return {
       swapRoutes,
-      recipient: address,
-      deadline,
+      recipient: quote.recipient, // or await signer.getAddress()
+      deadline: Math.floor(Date.now() / 1000) + 60 * 20,
       amountIn: amountInWithDecimals,
-      amountOutMinimum,
+      amountOutMinimum
     };
   });
 
-  let tx;
-  if (tokenIn.symbol === 'IP') {
-    // Case: tokenIn is IP
-    tx = await contract.swapMultiroutes(allExecutionParams, {
-      value: ethers.utils.parseUnits(quoteData.amountIn, tokenIn.decimals || 18),
-      gasLimit: ethers.BigNumber.from(10000000),
+  // 4. Handle swap cases
+  const router = new ethers.Contract(routerAddress, abiMimbokuRouter, signer);
+
+  // Case 1: Native token (IP) as tokenIn (send value)
+  if (quote.tokenInSymbol === "IP" && quote.tokenOutSymbol !== "IP") {
+    const tx = await router.swapMultiroutes(swapParams, {
+      gasLimit: 10000000,
+      value: amountIn // Send value for native token
     });
-  } else if (tokenOut.symbol === 'IP') {
-    // Case: tokenOut is IP
-    tx = await contract.swapMultiroutes(allExecutionParams, {
-      gasLimit: ethers.BigNumber.from(10000000),
-    });
-  } else {
-    // Default case
-    tx = await contract.swapMultiroutes(allExecutionParams, {
-      gasLimit: ethers.BigNumber.from(10000000),
-    });
+    console.log("Tx hash:", tx.hash);
+    await tx.wait();
+    console.log("Swap Native(IP)->ERC20 successful!");
+    return;
   }
 
-  console.log('Transaction sent:', tx.hash);
-  await tx.wait();
-  console.log('Transaction confirmed:', tx.hash);
+  // Case 2: Native token (IP) as tokenOut (no value)
+  if (quote.tokenInSymbol !== "IP" && quote.tokenOutSymbol === "IP") {
+    const tx = await router.swapMultiroutes(swapParams, {
+      gasLimit: 10000000
+      // No value needed
+    });
+    console.log("Tx hash:", tx.hash);
+    await tx.wait();
+    console.log("Swap ERC20->Native(IP) successful!");
+    return;
+  }
+
+  // Case 3: ERC20 -> ERC20 (no value)
+  if (quote.tokenInSymbol !== "IP" && quote.tokenOutSymbol !== "IP") {
+    const tx = await router.swapMultiroutes(swapParams, {
+      gasLimit: 10000000
+      // No value needed
+    });
+    console.log("Tx hash:", tx.hash);
+    await tx.wait();
+    console.log("Swap ERC20->ERC20 successful!");
+    return;
+  }
+
+  // Optionally, handle wrap/unwrap if needed (not shown here)
 }
 
-// Example usage
-(async () => {
-  const apiUrl = 'https://api.example.com/getQuote';
-  const params = {
-    tokenIn: '0xTokenInAddress',
-    tokenOut: '0xTokenOutAddress',
-    amountIn: '1000000000000000000', // 1 token (in wei)
-  };
-  const additionalParams = {
-    slippage: '0.5', // 0.5% slippage
-    timeLimit: '20', // 20 minutes
-  };
+main().catch(console.error);
 
-  try {
-    const quoteData = await getQuote(apiUrl, params, additionalParams);
-    console.log('Quote received:', quoteData);
-
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
-    const contractAddress = '0xYourContractAddress';
-    const abi = [/* Contract ABI */];
-    const tokenIn = { address: '0xTokenInAddress', decimals: 18, symbol: 'IP' }; // Example: tokenIn is IP
-    const tokenOut = { address: '0xTokenOutAddress', decimals: 18, symbol: 'USDT' };
-    const address = await signer.getAddress();
-
-    await executeSwap(contractAddress, abi, provider, signer, quoteData, tokenIn, tokenOut, additionalParams.slippage, address);
-  } catch (error) {
-    console.error('Error:', error);
-  }
-})();
-```
-
-### Notes
-
-* The `getQuote` function now accepts `additionalParams` to include extra query parameters.
-* Ensure the API supports the additional parameters being passed.
-* Test the function with the updated parameters to verify correctness.
+// Note:
+// - For ERC20 swaps, make sure you have approved the router contract to spend your tokenIn before calling swapMultiroutes.
+// - For native token swaps, pass the value field in the transaction options.
+// - Always check the quote API and contract ABI for the latest parameter structure.
