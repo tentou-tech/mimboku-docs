@@ -1,4 +1,4 @@
-swagger: "2.0"
+openapi: 3.0.1
 info:
   title: MimbokuSwap Aggregator API
   description: API for querying superior swap rates across multiple protocols
@@ -64,7 +64,7 @@ paths:
             example: "exactIn"
         - name: protocols
           in: query
-          description: Comma-separated list of protocols to include in the quote, available protocols: v2, v3, v3s1, default: v3
+          description: Comma-separated list of protocols to include in the quote, available protocols v2, v3, v3s1, default v3
           required: false
           schema:
             type: string
@@ -81,14 +81,6 @@ paths:
               Available Chain IDs:
               - 1315: Aeneid Story Testnet
               - 1514: Story Mainnet
-      headers:
-        - name: x-client-id
-          in: header
-          description: Client identifier for tracking
-          required: true
-          schema:
-            type: string
-            example: "MyAwesomeApp"
       responses:
         "200":
           description: Successful response with quote information
