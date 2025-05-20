@@ -26,7 +26,18 @@ Mimboku Aggregator exposes a set of APIs that allows developers to easily query 
 ### Example Request
 
 {% code overflow="wrap" %}
+
 ```sh
 curl --request GET 'https://router-dev.mimboku.com/quote?tokenInAddress=0x1514000000000000000000000000000000000000&tokenInChainId=1315&tokenOutAddress=0xd1fa5456186758b84811b929b4d696178fb56ee3&tokenOutChainId=1315&amount=100000000000&type=exactIn&protocols=v2,v3,v3s1'
 ```
+
 {% endcode %}
+
+#### Protocols
+
+| Protocol | Dex                                            |
+| -------- | ---------------------------------------------- |
+| v2       | PiperX V2                                      |
+| v3       | StoryHunt V3                                   |
+| v3s1     | PiperX V3                                      |
+| mixed    | Mixed all dexes PiperX V2, V3 and StoryHunt V3 |

@@ -64,11 +64,11 @@ paths:
             example: "exactIn"
         - name: protocols
           in: query
-          description: Comma-separated list of protocols to include in the quote
+          description: Comma-separated list of protocols to include in the quote, available protocols: v2, v3, v3s1, default: v3
           required: false
           schema:
             type: string
-            example: "v2,v3,v3s1"
+            example: "v2,v3,v3s1,mixed"
         - name: chainId
           in: query
           description: The blockchain network ID to use for the swap
@@ -166,7 +166,7 @@ paths:
                         properties:
                           type:
                             type: string
-                            description: The type of pool
+                            description: The type of pool(v2-pool -> 0, v3-pool & v3s1-pool -> 1)
                             example: "v3-pool"
                             enum: ["v3-pool", "v2-pool", "v3s1-pool"]
                           address:
