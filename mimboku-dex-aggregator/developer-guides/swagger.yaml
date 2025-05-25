@@ -252,23 +252,7 @@ paths:
                   priceImpact:
                     type: string
                     description: Price impact of the swap as a percentage
-                    example: "61.75"
-                  methodParameters:
-                    type: object
-                    description: Parameters needed for executing the swap
-                    properties:
-                      calldata:
-                        type: string
-                        description: Encoded calldata for the swap
-                        example: "0x5ae401dc00000000000000000000000000000000000000000000000000000000..."
-                      value:
-                        type: string
-                        description: ETH value to send with transaction
-                        example: "0"
-                      to:
-                        type: string
-                        description: Contract address to call
-                        example: "0x1062916B1Be3c034C1dC6C26f682Daf1861A3909"
+                    example: "0.1"
         "400":
           description: Bad request - invalid parameters
         "500":
