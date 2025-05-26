@@ -208,7 +208,7 @@ paths:
                               address:
                                 type: string
                                 description: Token contract address
-                                example: "0xF1815bd50389c46847f0Bda824eC8da914045D14"
+                                example: "0xD1fa5456186758b84811b929B4D696178fb56eE3"
                               symbol:
                                 type: string
                                 description: Token symbol
@@ -240,7 +240,8 @@ paths:
                   routeString:
                     type: string
                     description: Human-readable representation of the route
-                    example: "[V3] 100.00% = WIP -- 0.05% [0x0bB8Df520A2c1Bf8B50D0a7b326a0Df295069431]USDC.e -- 0.3% [0xFD061584f1F88F24fe11Dfa12B9D283afe2FC9F8]BENJI"
+                    example: "[V3] 100.00% = WIP -- 0.3% [0x8020b70F1F0e55c7b9B26C01B74cBC8A3a77E1d8]USDT",
+"
                   quoteId:
                     type: string
                     description: Unique identifier for this quote
@@ -257,11 +258,3 @@ paths:
           description: Bad request - invalid parameters
         "500":
           description: Server error
-components:
-  securitySchemes:
-    ApiKeyAuth:
-      type: apiKey
-      in: header
-      name: x-client-id
-security:
-  - ApiKeyAuth: []
