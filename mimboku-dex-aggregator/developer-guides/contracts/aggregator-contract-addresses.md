@@ -10,7 +10,7 @@ The information of MimbokuRouter Aggregator contracts and their respective explo
 
 | **Network** |                                                               **Address**                                                              |
 | :---------: | :------------------------------------------------------------------------------------------------------------------------------------: |
-|    Aeneid   |      [0x1b9e67f43a43450F2B33814bd8696c62Ed234DA2](https://aeneid.storyscan.io/address/0x1b9e67f43a43450F2B33814bd8696c62Ed234DA2)      |
+|    Aeneid   |      [0x8Cc67A90074277E59aaB2927089F1D324D5E1b0a](https://aeneid.storyscan.io/address/0x8Cc67A90074277E59aaB2927089F1D324D5E1b0a)      |
 |    Story    | [0x852143a47Ac710a851B5117Cbb927bdcd3744e64](https://www.storyscan.io/address/0x852143a47Ac710a851B5117Cbb927bdcd3744e64?tab=contract) |
 
 ### Description
