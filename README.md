@@ -19,7 +19,7 @@ Built natively on Story L1, our aggregator offers optimized performance, potenti
 ### Key Features
 
 * Finds optimal swap routes across integrated DEXes.
-* Currently supports **PiperX** and **StoryHunt** on the Story testnet.
+* Currently supports **PiperX** and **StoryHunt** on the Story.
 * Easy-to-use interface with real-time price comparison.
 
 Start trading efficiently on Story L1. Explore the sections below to learn how!
