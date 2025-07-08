@@ -12,19 +12,23 @@ To execute a swap, the router (`MimbokuRouter`) contract requires the encoded sw
 
 ## How to Call API for Quote and Swap Using JavaScript
 
-Here is an example of how to call an API to get a quote and pass it to a smart contract for swapping:
-
-1. **Fetch the Quote**: Use `fetch` or any HTTP client (e.g., Axios) to call the API endpoint for getting a quote.
-2. **Prepare the Contract Interaction**: Use a library like `ethers.js` or `web3.js` to interact with the smart contract.
-3. **Execute the Swap**: Pass the quote data to the contract's swap function.
-
-### Example Code
-
-```javascript
 // Example: How to get a quote and perform a swap using ethers.js
 
 import { ethers } from "ethers";
+import { encodeFunctionData, erc20Abi, maxUint256 } from "viem";
+import { estimateGas, prepareTransactionRequest, waitForTransactionReceipt } from '@wagmi/core';
 import abiMimbokuRouter from "@/abis/abi.json";
+
+// Helper function to map pool types (from utils/index.ts)
+function mapPoolType(type) {
+  const poolTypeMap = {
+    'v2': 0,
+    'v3': 1,
+    'v3s1': 2,
+    'mixed': 3
+  };
+  return poolTypeMap[type] || 0;
+}
 
 // 1. Get a quote from your backend or quote API
 async function fetchQuote({
@@ -46,6 +50,7 @@ async function fetchQuote({
 const provider = new ethers.JsonRpcProvider("https://rpc-url");
 const signer = provider.getSigner(); // Make sure wallet is connected
 const routerAddress = "0x..."; // MimbokuRouter contract address
+const config = {/* your wagmi config */}; // For gas estimation
 
 // Example tokens (replace with real addresses)
 const tokenInAddress = "0x..."; // Token you want to sell
@@ -54,77 +59,208 @@ const decimalsIn = 18; // Decimals for tokenIn
 const decimalsOut = 18; // Decimals for tokenOut
 const amountIn = ethers.parseUnits("1.0", decimalsIn); // Amount to swap
 
-// 3. Get quote data
+// 3. Get quote data and perform swap
 async function main() {
+  const userAddress = await signer.getAddress();
+  
   // Get quote from API
   const quote = await fetchQuote({
     tokenIn: tokenInAddress,
     tokenOut: tokenOutAddress,
     amountIn: amountIn.toString(),
     chainId: 1514, // Replace with your chainId
-    protocols: 'v2,v3' // Replace with v2,v3,v3s1,mixed
+    protocols: 'v2,v3,v3s1,mixed' // Available protocols
   });
 
-  // Prepare swap params from quote
-  // This assumes quote.route is an array of swap paths, similar to your dApp logic
-  const swapParams = quote.route.map((path) => {
-    const swapRoutes = path.map((step, idx) => {
-      return {
-        routerAddress: step.routerAddress,
-        poolType: step.type,
-        tokenIn: step.tokenIn.address,
-        tokenOut: step.tokenOut.address,
-        fee: step.fee || 0
-      };
-    });
-    const amountInWithDecimals = ethers.BigNumber.from(path[0]?.amountIn?.toString() || "0");
-    const amountOutWithDecimals = ethers.BigNumber.from(path[path.length - 1]?.amountOut || "0");
-    // Calculate minimum amount out based on slippage (e.g. 0.5%)
-    const slippage = 0.5; // Replace with your slippage
-    const amountOutMinimum = amountOutWithDecimals.mul(10000 - slippage * 100).div(10000);
+  // Prepare swap execution parameters from quote
+  const slippage = "0.5"; // 0.5% slippage
+  const timeLimit = "20"; // 20 minutes
+  const deadline = Math.floor(Date.now() / 1000) + parseInt(timeLimit, 10) * 60;
+
+  const allExecutionParams = quote.route.map((path) => {
+    // Map each step in the path to swap routes
+    const swapRoutes = path.map((step, index) => ({
+      routerAddress: step.routerAddress,
+      poolType: mapPoolType(step.type), // Map string type to number
+      tokenIn: step.tokenIn.address,
+      tokenOut: step.tokenOut.address,
+      fee: step.fee || BigInt(0),
+    }));
+
+    const amountInWithDecimals = BigInt(path[0]?.amountIn?.toString() || '0');
+    const amountOutWithDecimals = BigInt(path[path.length - 1]?.amountOut || '0');
+    
+    // Calculate minimum amount out with slippage protection
+    const amountOutMinimum = 
+      (amountOutWithDecimals * BigInt(10000 - parseFloat(slippage) * 100)) / BigInt(10000);
+
+    // Apply fee-on-transfer token adjustments
+    const totalPercent = path.reduce((acc, step) =>
+      acc - (typeof step.feeOnTransferToken === 'number' && step.feeOnTransferToken > 0 ? step.feeOnTransferToken : 0), 100);
+    const finalAmountOutMinimum = (amountOutMinimum * BigInt(totalPercent)) / BigInt(100);
 
     return {
       swapRoutes,
-      recipient: quote.recipient, // or await signer.getAddress()
-      deadline: Math.floor(Date.now() / 1000) + 60 * 20,
+      recipient: userAddress,
+      deadline,
       amountIn: amountInWithDecimals,
-      amountOutMinimum
+      amountOutMinimum: finalAmountOutMinimum,
     };
   });
 
-  // 4. Handle swap cases
+  // 4. Handle different swap cases
   const router = new ethers.Contract(routerAddress, abiMimbokuRouter, signer);
 
-  // Case: Native token (IP) as tokenIn (send value)
-  if (quote.tokenInSymbol === "IP") {
-    const tx = await router.swapMultiroutes(swapParams, {
-      gasLimit: 10000000,
-      value: amountIn // Send value for native token
-    });
-    console.log("Tx hash:", tx.hash);
-    await tx.wait();
-    console.log("Swap Native(IP)->ERC20 successful!");
-    return;
-  }
+  try {
+    let hash;
+    let gas;
 
-  // Case Default
-  else {
-    const tx = await router.swapMultiroutes(swapParams, {
-      gasLimit: 10000000
-      // No value needed
-    });
-    console.log("Tx hash:", tx.hash);
-    await tx.wait();
-    console.log("Swap ERC20->ERC20 successful!");
-    return;
-  }
+    // Case 1: Native token (IP) as tokenIn
+    if (quote.tokenInSymbol === "IP") {
+      try {
+        // Estimate gas with value for native token
+        const data = encodeFunctionData({
+          abi: abiMimbokuRouter,
+          functionName: 'swapMultiroutes',
+          args: [allExecutionParams],
+        });
 
-  // Optionally, handle wrap/unwrap if needed (not shown here)
+        const request = await prepareTransactionRequest(config, {
+          account: userAddress,
+          to: routerAddress,
+          data,
+          value: ethers.parseUnits(amountIn.toString(), decimalsIn),
+        });
+        gas = await estimateGas(config, request);
+      } catch (error) {
+        console.warn('Gas estimation failed, using fallback');
+      }
+
+      // Execute swap with native token value
+      const tx = await router.swapMultiroutes(allExecutionParams, {
+        gasLimit: gas || BigInt(10000000), // Use estimated gas or fallback
+        value: ethers.parseUnits(amountIn.toString(), decimalsIn) // Send value for native token
+      });
+      hash = tx.hash;
+      console.log("Native token swap tx hash:", hash);
+    }
+    
+    // Case 2: ERC20 tokens (default case)
+    else {
+      try {
+        // Estimate gas for ERC20 swap
+        const data = encodeFunctionData({
+          abi: abiMimbokuRouter,
+          functionName: 'swapMultiroutes',
+          args: [allExecutionParams],
+        });
+
+        const request = await prepareTransactionRequest(config, {
+          account: userAddress,
+          to: routerAddress,
+          data,
+        });
+        gas = await estimateGas(config, request);
+      } catch (error) {
+        console.warn('Gas estimation failed, using fallback');
+      }
+
+      // Execute ERC20 swap
+      const tx = await router.swapMultiroutes(allExecutionParams, {
+        gasLimit: gas || BigInt(10000000), // Use estimated gas or fallback
+        // No value needed for ERC20
+      });
+      hash = tx.hash;
+      console.log("ERC20 swap tx hash:", hash);
+    }
+
+    // Wait for transaction confirmation
+    if (!hash) {
+      throw new Error('Transaction hash is undefined');
+    }
+    
+    const receipt = await waitForTransactionReceipt(config, { hash });
+    
+    if (receipt.status === 'success') {
+      console.log('Swap successful! TxHash:', hash);
+    } else {
+      throw new Error('Transaction failed');
+    }
+
+  } catch (error) {
+    console.error('Swap failed:', error);
+    throw error;
+  }
 }
 
-main().catch(console.error);
+// 5. Handle token approval (for ERC20 tokens only)
+async function approveToken(tokenAddress, spenderAddress, amount) {
+  const tokenContract = new ethers.Contract(tokenAddress, erc20Abi, signer);
+  const userAddress = await signer.getAddress();
+  
+  // Check current allowance
+  const allowance = await tokenContract.allowance(userAddress, spenderAddress);
+  
+  if (BigInt(allowance.toString()) >= BigInt(amount.toString())) {
+    console.log('Token already approved');
+    return;
+  }
+  
+  // Approve token
+  const tx = await tokenContract.approve(spenderAddress, maxUint256);
+  console.log('Approval tx hash:', tx.hash);
+  await tx.wait();
+  console.log('Token approval successful!');
+}
 
-// Note:
-// - For ERC20 swaps, make sure you have approved the router contract to spend your tokenIn before calling swapMultiroutes.
-// - For native token swaps, pass the value field in the transaction options.
-// - Always check the quote API and contract ABI for the latest parameter structure.
+// 6. Complete workflow example
+async function performSwap() {
+  try {
+    // Step 1: Approve token if it's not native (IP)
+    if (tokenInAddress !== "0x0000000000000000000000000000000000000000") { // Not native token
+      await approveToken(tokenInAddress, routerAddress, amountIn);
+    }
+    
+    // Step 2: Perform the swap
+    await main();
+    
+  } catch (error) {
+    console.error('Swap workflow failed:', error);
+  }
+}
+
+// 7. Handle wrap/unwrap cases (IP <-> WIP)
+async function handleWrapUnwrap(tokenIn, tokenOut, amount) {
+  const wrapContractAddress = "0x1514000000000000000000000000000000000000"; // From ContractAddresses.OX1514Address
+  const wrapContract = new ethers.Contract(wrapContractAddress, abi1514, signer);
+  
+  // Case: IP -> WIP (Wrap)
+  if (tokenIn.symbol === "IP" && tokenOut.symbol === "WIP") {
+    const tx = await wrapContract.deposit({
+      value: ethers.parseUnits(amount, tokenIn.decimals),
+      gasLimit: 10000000
+    });
+    console.log('Wrap tx hash:', tx.hash);
+    await tx.wait();
+    console.log('Wrap successful!');
+    return;
+  }
+  
+  // Case: WIP -> IP (Unwrap)
+  if (tokenIn.symbol === "WIP" && tokenOut.symbol === "IP") {
+    const amountWithDecimals = ethers.parseUnits(amount, tokenIn.decimals);
+    const tx = await wrapContract.withdraw(amountWithDecimals.toString(), {
+      gasLimit: 10000000
+    });
+    console.log('Unwrap tx hash:', tx.hash);
+    await tx.wait();
+    console.log('Unwrap successful!');
+    return;
+  }
+  
+  // Regular swap
+  await performSwap();
+}
+
+// Run the example
+performSwap().catch(console.error);
