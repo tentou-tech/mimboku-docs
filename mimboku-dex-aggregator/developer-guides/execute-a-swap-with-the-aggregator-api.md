@@ -76,7 +76,7 @@ async function fetchQuote({
     protocols: protocols
   });
 
-  const response = await fetch(`router-api/quote?${params}`); // Replace with router-api
+  const response = await fetch(`https://router-api/quote?${params}`); // Replace with router-api
   /* ex: 
  https://router-dev.mimboku.com/quote?  tokenInAddress=0x0000000000000000000000000000000000000000&tokenInChainId=1315&tokenOutAddress=0x3d05fd5240e30525b7dcf38683084195b68be848&tokenOutChainId=1315&amount=1413657184000000000000&type=exactIn&protocols=v2%2Cv3%2Cv3s1%2Cmixed */
 
