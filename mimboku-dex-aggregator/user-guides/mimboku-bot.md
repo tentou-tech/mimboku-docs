@@ -7,6 +7,8 @@ icon: bot
 
 ## Introduction
 
+[Mimboku Telegram Bot](https://t.me/MimbokuBot)
+
 Mimboku Buy Bot is a versatile Telegram bot that can operate in both direct messages and group chats. Users can interact with the bot in two ways:
 
 1. **Direct Messages**
