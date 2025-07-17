@@ -45,7 +45,6 @@ function mapPoolType(type) {
   if (type.includes('v2')) {
     return 0;
   }
-  if (type.includes('v3')) {
   return 1;
 }
 
