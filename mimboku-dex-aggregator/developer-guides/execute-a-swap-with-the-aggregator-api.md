@@ -43,10 +43,10 @@ const signer = provider.getSigner();
 // Map pool types to numbers
 function mapPoolType(type) {
   if (type.includes('v2')) {
-    return 1;
+    return 0;
   }
   if (type.includes('v3')) {
-  return 2;
+  return 1;
 }
 
 ## 1. Fetch Quote from API
@@ -76,7 +76,7 @@ async function fetchQuote({
     protocols: protocols
   });
 
-  const response = await fetch(`https://router-dev.mimboku.com/quote?${params}`);
+  const response = await fetch(`router-api/quote?${params}`); // Replace with router-api
   /* ex: 
  https://router-dev.mimboku.com/quote?  tokenInAddress=0x0000000000000000000000000000000000000000&tokenInChainId=1315&tokenOutAddress=0x3d05fd5240e30525b7dcf38683084195b68be848&tokenOutChainId=1315&amount=1413657184000000000000&type=exactIn&protocols=v2%2Cv3%2Cv3s1%2Cmixed */
 
