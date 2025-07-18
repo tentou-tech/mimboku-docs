@@ -16,7 +16,7 @@
   * [Choose Token](mimboku-dex-aggregator/user-guides/choose-token.md)
   * [Connect Wallet](mimboku-dex-aggregator/user-guides/connect-wallet.md)
   * [Transaction Review](mimboku-dex-aggregator/user-guides/transaction-review.md)
-* [Mimboku Buy Bot](mimboku-dex-aggregator/mimboku-bot.md)
+* [Mimboku Buy Bot](mimboku-dex-aggregator/user-guides/mimboku-bot.md)
 
 ## MIMBOKU NFT
 

@@ -1,3 +1,7 @@
+---
+icon: robot
+---
+
 # Mimboku Buy Bot
 
 ## Introduction
@@ -42,7 +46,7 @@ The bot supports the following commands:
     * `token_address`: The contract address of the token (42 characters, starts with 0x)
     * `limit_amount`: (Optional) Minimum transaction amount to trigger notifications, default: 0
 
-    <figure><img src="../.gitbook/assets/mimboku-bot/add_token.png" alt=""><figcaption><p>Add Token</p></figcaption></figure>
+    <figure><img src="../../.gitbook/assets/mimboku-bot/add_token.png" alt=""><figcaption><p>Add Token</p></figcaption></figure>
 2.  **Set Limit** - Set or update notification limit for a token
 
     ```
@@ -58,7 +62,7 @@ The bot supports the following commands:
     * Set to 0 to receive notifications for all transactions
     * Must be a positive number
 
-    <figure><img src="../.gitbook/assets/mimboku-bot/set_limit.png" alt=""><figcaption><p>Set Limit</p></figcaption></figure>
+    <figure><img src="../../.gitbook/assets/mimboku-bot/set_limit.png" alt=""><figcaption><p>Set Limit</p></figcaption></figure>
 3.  **List Tokens** - View all tracked tokens
 
     ```
@@ -72,7 +76,7 @@ The bot supports the following commands:
     * Limit amount (shows "No Limit" if not set)
     * Added by (username or full name)
 
-    <figure><img src="../.gitbook/assets/mimboku-bot/list_token.png" alt=""><figcaption><p>List Token</p></figcaption></figure>
+    <figure><img src="../../.gitbook/assets/mimboku-bot/list_token.png" alt=""><figcaption><p>List Token</p></figcaption></figure>
 4.  **Remove Token** - Stop tracking a token
 
     ```
@@ -89,7 +93,7 @@ The bot supports the following commands:
     * Only removes tokens you have added
     * Must be a valid address (42 characters, starts with 0x)
 
-    <figure><img src="../.gitbook/assets/mimboku-bot/remove_token.png" alt=""><figcaption><p>Remove Token</p></figcaption></figure>
+    <figure><img src="../../.gitbook/assets/mimboku-bot/remove_token.png" alt=""><figcaption><p>Remove Token</p></figcaption></figure>
 
 ### Notification Settings
 
@@ -110,7 +114,7 @@ The bot supports the following commands:
     * If not set, a default GIF will be used
     * Can be used in private chat or groups (requires admin privileges for groups)
 
-    <figure><img src="../.gitbook/assets/mimboku-bot/set_gif.png" alt=""><figcaption><p>Set Limit</p></figcaption></figure>
+    <figure><img src="../../.gitbook/assets/mimboku-bot/set_gif.png" alt=""><figcaption><p>Set Limit</p></figcaption></figure>
 2.  **Set Custom Emoji** - Set a custom emoji for your notifications
 
     ```
@@ -128,7 +132,7 @@ The bot supports the following commands:
     * If not set, default emoji (🐸) will be used
     * Can be used in private chat or groups (requires admin privileges for groups)
 
-    <figure><img src="../.gitbook/assets/mimboku-bot/set_emoji.png" alt=""><figcaption><p>Set Emoji</p></figcaption></figure>
+    <figure><img src="../../.gitbook/assets/mimboku-bot/set_emoji.png" alt=""><figcaption><p>Set Emoji</p></figcaption></figure>
 3.  **Get Configuration** - View your current notification settings
 
     ```
@@ -142,7 +146,7 @@ The bot supports the following commands:
     * Token limit amounts for all tracked tokens
     * Can be used in private chat or groups (requires admin privileges for groups)
 
-    <figure><img src="../.gitbook/assets/mimboku-bot/get_config.png" alt=""><figcaption><p>Get Config</p></figcaption></figure>
+    <figure><img src="../../.gitbook/assets/mimboku-bot/get_config.png" alt=""><figcaption><p>Get Config</p></figcaption></figure>
 
 ### Notes
 
