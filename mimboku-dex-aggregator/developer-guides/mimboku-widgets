@@ -1,0 +1,68 @@
+# WGM Swap Components
+
+A modern, self-contained React component for building token swap interfaces, built with TypeScript.
+
+## Installation
+
+```bash
+npm install wgm-swap-components
+```
+
+### Peer Dependencies
+
+This package requires the following peer dependencies to be installed in your project:
+
+```bash
+npm install react react-dom wagmi @wagmi/core @tanstack/react-query react-hot-toast
+```
+
+- **react**: >=16.8.0 
+- **react-dom**: >=16.8.0
+- **wagmi**: ^2.16.0 (for wallet integration)
+- **@wagmi/core**: ^2.18.0 (for blockchain interactions)
+- **@tanstack/react-query**: ^5.0.0 (required by wagmi for data fetching)
+- **react-hot-toast**: ^2.4.1 (for transaction notifications)
+
+## Features
+
+- **Self-Contained**: The component manages its own state, including fetching tokens and quotes.
+- **Wagmi Integration**: Seamlessly connects with your existing Wagmi configuration for wallet interactions.
+- **Automatic Token Fetching**: Fetches and displays a list of swappable tokens automatically.
+- **Quote Fetching**: Gets real-time swap quotes.
+- **Toast Notifications**: Provides clear feedback on transaction status.
+- **Advanced Token Selection**: Includes a modal with search, favorites, and history.
+- **Responsive Design**: Works on desktop and mobile.
+- **TypeScript Support**: Full type safety.
+
+## Usage
+
+The `SwapForm` component is designed to be a drop-in solution. Simply wrap your application with the necessary providers from Wagmi, React Query, and RainbowKit, then render the component with your Wagmi config.
+
+```tsx
+import React from 'react';
+import { SwapForm } from 'wgm-swap-components';
+import 'wgm-swap-components/dist/styles.css'; // Don't forget to import the styles
+
+// Your existing provider setup
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { WagmiProvider } from 'wagmi';
+import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
+import '@rainbow-me/rainbowkit/styles.css';
+import { config } from './wagmi-config'; // Your wagmi config
+
+const queryClient = new QueryClient();
+
+function App() {
+  return (
+    <WagmiProvider config={config}>
+      <QueryClientProvider client={queryClient}>
+        <RainbowKitProvider>
+          <SwapForm config={config} />
+        </RainbowKitProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
+  );
+}
+
+export default App;
+```
