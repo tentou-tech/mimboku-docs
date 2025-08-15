@@ -1,11 +1,11 @@
-# WGM Swap Components
+# Mimboku-swap-components
 
 A modern, self-contained React component for building token swap interfaces, built with TypeScript.
 
 ## Installation
 
 ```bash
-npm install wgm-swap-components
+npm install @tentou-tech/mimboku-swap-component
 ```
 
 ### Peer Dependencies
@@ -40,8 +40,8 @@ The `SwapForm` component is designed to be a drop-in solution. Simply wrap your 
 
 ```tsx
 import React from 'react';
-import { SwapForm } from 'wgm-swap-components';
-import 'wgm-swap-components/dist/styles.css'; // Don't forget to import the styles
+import { SwapForm } from '@tentou-tech/mimboku-swap-components';
+import '@tentou-tech/mimboku-swap-components/dist/styles.css'; // Don't forget to import the styles
 
 // Your existing provider setup
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -66,3 +66,37 @@ function App() {
 
 export default App;
 ```
+
+## Components
+
+### SwapForm
+
+The main, self-contained swap interface component.
+
+#### Props
+
+- `config`: Config - Your Wagmi config object. This is the only prop required.
+
+## Styling
+
+The components come with built-in CSS styles. You can import them directly into your application:
+
+```js
+import '@tentou-tech/mimboku-swap-components/dist/styles.css';
+```
+
+## Development
+
+### Building the library
+
+```bash
+npm run build
+```
+
+### Publishing
+
+See [PUBLISHING.md](./PUBLISHING.md) for detailed publishing instructions.
+
+## License
+
+MIT
