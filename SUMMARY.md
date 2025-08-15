@@ -6,6 +6,7 @@
 
 * [Concept](mimboku-dex-aggregator/concept/README.md)
   * [Dynamic Trade Routing](mimboku-dex-aggregator/concept/dynamic-trade-routing.md)
+  * [Mimboku Swap Components](mimboku-dex-aggregator/concept/Mimboku-swap-components.md)
 * [Developer Guides](mimboku-dex-aggregator/developer-guides/README.md)
   * [Aggregator API](mimboku-dex-aggregator/developer-guides/aggregator-api.md)
   * [Contracts](mimboku-dex-aggregator/developer-guides/contracts/README.md)
